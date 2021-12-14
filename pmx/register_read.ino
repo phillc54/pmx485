@@ -1,6 +1,6 @@
 bool register_read(){ // READ REGISTER
 
-  const char start[] = "010402"; 
+  const char start[] = "010402";
   char data[5];
   char tmpD[5];
   byte tmpB = 0;
@@ -8,7 +8,7 @@ bool register_read(){ // READ REGISTER
   int tmpI = 0;
   char outCheck[13];
   int i = 0;
-  
+
   if((int)strtol(inRegister, NULL, 16) == rMode){
     tmpI = cMode;
    }else if((int)strtol(inRegister, NULL, 16) == rCurrent){
@@ -26,7 +26,7 @@ bool register_read(){ // READ REGISTER
   }else if((int)strtol(inRegister, NULL, 16) == rPressureMax){
     tmpI = cPressureMax * 128;
   }
-  
+
   utoa(tmpI, tmpD, 16);
 
   if(strlen(tmpD) < 4){

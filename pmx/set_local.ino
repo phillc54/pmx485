@@ -107,5 +107,5 @@ void set_local(){ // SET LOCAL VALUES
   }
   oldMode = cMode;
   oldCurrent = cCurrent;
-  oldPressure = cPressure;  
+  oldPressure = cPressure;
 } // END SET LOCAL VALUES

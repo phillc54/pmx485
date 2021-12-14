@@ -1,7 +1,7 @@
 void loop(){ // MAIN LOOP
 
   bool result = false;
-  
+
   if(newData == false){
     get_data();
   }else{
@@ -49,7 +49,7 @@ void loop(){ // MAIN LOOP
   }
 
   buttons();
-  
+
   display();
 
 } // END MAIN LOOP

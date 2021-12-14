@@ -6,10 +6,10 @@ void get_data(){  // GET DATA
   char endMarker = '\n';
   char inChar;
 //  static byte idx = 0;
-  
+
   while(Serial.available() > 0 && newData == false){
     inChar = Serial.read();
-//    if(idx < 15){     
+//    if(idx < 15){
 //      idx ++;
 //    }
     if(recvInProgress == true){

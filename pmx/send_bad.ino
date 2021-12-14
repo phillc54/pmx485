@@ -1,7 +1,7 @@
 void send_bad(){ // SEND DATA
 
   char tmp[15];
-  
+
   digitalWrite(receiving, HIGH);
   delay(1);
   strcpy(tmp,"E:");

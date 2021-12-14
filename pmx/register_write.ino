@@ -21,7 +21,7 @@ bool register_write(){ // WRITE REGISTER
       cPressure = cPressureMin;
     }
 
-  
+
   }else if((int)strtol(inRegister, NULL, 16) == rCurrent){
     cCurrent = ((float)strtol(inData, NULL, 16)) / 64;
   }else if((int)strtol(inRegister, NULL, 16) == rPressure){
@@ -29,6 +29,6 @@ bool register_write(){ // WRITE REGISTER
   }
 
   strcpy(reply, inRaw);
-  return true;  
+  return true;
 
 } // END WRITE REGISTER

@@ -2,7 +2,7 @@ void display(){ // DISPLAY
 
   char input[6];
   char output[7];
-  
+
   // show mode
   lcd.setCursor(0, 0);
   switch (cMode) {

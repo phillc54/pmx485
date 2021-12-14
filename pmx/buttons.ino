@@ -13,7 +13,7 @@ void buttons(){ // READ BUTTONS
     button = 1;
   }else{
     button = 0;
-  } 
+  }
 
   if(remoteMode){
     if(x < 1003){
@@ -56,16 +56,16 @@ void buttons(){ // READ BUTTONS
       startMillis = 0;
     }
     switch(setting){
-      case 0:  
+      case 0:
         strcpy(settings, "Local   ");
         break;
-      case 1:  
+      case 1:
         strcpy(settings, "Mode    ");
         break;
-      case 2:  
+      case 2:
         strcpy(settings, "Current ");
         break;
-      case 3:  
+      case 3:
         strcpy(settings, "Pressure");
         break;
       case 4:
