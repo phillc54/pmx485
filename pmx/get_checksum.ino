@@ -2,9 +2,10 @@ bool get_checksum(){ // CHECKSUM
 
   char tmp[3];
   char tmp1[3];
+  unsigned i = 0;
 
   lrc = 0;
-  for(int i = 0; i < strlen(inCheck); i = i + 2){
+  for(; i < strlen(inCheck); i = i + 2){
     strncpy(tmp, &inCheck[i], 2);
     lrc = (lrc + (int)strtol(tmp, NULL, 16)) & 255;
   }
@@ -21,5 +22,7 @@ bool get_checksum(){ // CHECKSUM
   if(!strcmp(strupr(inLRC), strupr(hex))){
     return true;
   }
+
+  return false;
 
 } // END CHECKSUM

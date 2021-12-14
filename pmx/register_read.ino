@@ -3,11 +3,8 @@ bool register_read(){ // READ REGISTER
   const char start[] = "010402";
   char data[5];
   char tmpD[5];
-  byte tmpB = 0;
-  float tmpF = 0;
   int tmpI = 0;
-  char outCheck[13];
-  int i = 0;
+  unsigned i = 0;
 
   if((int)strtol(inRegister, NULL, 16) == rMode){
     tmpI = cMode;
@@ -32,8 +29,8 @@ bool register_read(){ // READ REGISTER
   if(strlen(tmpD) < 4){
     int difference = 4 - strlen(tmpD);
     memset(data, '0', difference);
-    for(i; i < strlen(tmpD); i++){
-      data[i+difference] = tmpD[i];
+    for(; i < strlen(tmpD); i++){
+      data[i + difference] = tmpD[i];
     }
   }else{
     strcpy(data, tmpD);
@@ -42,7 +39,7 @@ bool register_read(){ // READ REGISTER
   data[4] = '\0';
   strcpy(inCheck, start);
   strcat(inCheck, strupr(data));
-  strcat(inCheck, '\0');
+  strcat(inCheck, "\0");
   get_checksum();
   strcpy(reply, ":");
   strcat(reply, inCheck);
