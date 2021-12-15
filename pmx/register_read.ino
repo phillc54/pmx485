@@ -22,6 +22,10 @@ bool register_read(){ // READ REGISTER
     tmpI = cPressureMin * 128;
   }else if((int)strtol(inRegister, NULL, 16) == rPressureMax){
     tmpI = cPressureMax * 128;
+  }else if((int)strtol(inRegister, NULL, 16) == rArcTimeLow){
+    tmpI = 65535;
+  }else if((int)strtol(inRegister, NULL, 16) == rArcTimeHigh){
+    tmpI = 0;
   }
 
   utoa(tmpI, tmpD, 16);

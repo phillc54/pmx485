@@ -26,6 +26,8 @@ const int   rMode        = 8339;  // cut mode register #
 const int   rPressure    = 8342;  // pressure register #
 const int   rPressureMax = 8349;  // pressure max register #
 const int   rPressureMin = 8348;  // pressure min register #
+const int   rArcTimeLow  = 8350;  // arc time low register #
+const int   rArcTimeHigh = 8351;  // arc time high register #
 
 // TEMP GLOBAL FOR TEST
 byte bob;
