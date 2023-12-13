@@ -1,61 +1,63 @@
-void buttons(){ // READ BUTTONS
+void buttons() {  // READ BUTTONS
+
   int x;
-  x = analogRead (0);
-  if(x < 114) {
+
+  x = analogRead(0);
+  if (x < 114) {
     button = 3;
-  }else if(x < 300) {
+  } else if (x < 300) {
     button = 4;
-  }else if(x < 466){
+  } else if (x < 466) {
     button = 5;
-  }else if(x < 707){
+  } else if (x < 707) {
     button = 2;
-  }else if(x < 1003){
+  } else if (x < 1003) {
     button = 1;
-  }else{
+  } else {
     button = 0;
   }
 
-  if(remoteMode){
-    if(x < 1003){
-      switch(button){
+  if (remoteMode) {
+    if (x < 1003) {
+      switch (button) {
         case 1:
-          cFault = 120;
+          presentFault = 120;
           break;
         case 2:
-          cFault = 220;
+          presentFault = 220;
           break;
         case 3:
-          cFault = 402;
+          presentFault = 402;
           break;
         case 4:
-          cFault = 2111;
+          presentFault = 2111;
           break;
         case 5:
-          cFault = 3421;
+          presentFault = 3421;
           break;
       }
-    }else{
-      cFault = 0;
+    } else {
+      presentFault = 0;
     }
     setting = 0;
-    strcpy(settings,"Remote  ");
-  }else{
-    if(button){
-      if(buttonOff){
+    strcpy(settings, "Remote  ");
+  } else {
+    if (button) {
+      if (buttonOff) {
         buttonOff = false;
         startMillis = millis();
         set_local();
-      }else if(setting > 1 && (button == 4 || button == 5) && startMillis){
-        if(millis() > startMillis + 250){
+      } else if (setting > 1 && (button == 4 || button == 5) && startMillis) {
+        if (millis() > startMillis + 250) {
           startMillis = millis();
           set_local();
         }
       }
-    }else{
+    } else {
       buttonOff = true;
       startMillis = 0;
     }
-    switch(setting){
+    switch (setting) {
       case 0:
         strcpy(settings, "Local   ");
         break;
@@ -73,5 +75,8 @@ void buttons(){ // READ BUTTONS
         break;
     }
   }
+  if (x > 1003) {
+    presentFault = 0;
+  }
 
-} // END READ BUTTONS
+}  // END READ BUTTONS

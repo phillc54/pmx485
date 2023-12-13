@@ -1,4 +1,4 @@
-void send_data(){ // SEND DATA
+void send_data() {  // SEND DATA
 
   digitalWrite(receiving, HIGH);
   delay(1);

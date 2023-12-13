@@ -1,55 +1,60 @@
-void loop(){ // MAIN LOOP
+void loop() {  // MAIN LOOP
 
-  bool result = false;
+  char hex2[3] = "";
+  char hex4[5] = "";
 
-  if(newData == false){
+  if (newData == false) {
     get_data();
-  }else{
-    if(get_checksum()){
-//      if(remoteMode == true){
-      if(remoteMode){
-        if(address == (int)strtol(inAddress, NULL, 16)){
-          if((int)strtol(inFunction, NULL, 16) == regRead){
-            result = register_read();
-          }else if((int)strtol(inFunction, NULL, 16) == regWrite){
-            result = register_write();
-            if(cMode == 0 && cCurrent == 0 && cPressure == 0){
-                address = 0;
-                validMode = false;
-                validCurrent = false;
-                validPressure = false;
-                cMode = oldMode;
-                cCurrent = oldCurrent;
-                cPressure = oldPressure;
-//                cMode = 0;
-//                cCurrent = 0;
-//                cPressure = 0;
-                remoteMode = false;
-            }
+  } else {
+    if (get_lrc()) {
+      if (inFunction == coilRead) {
+        coil_read();
+      } else if (inFunction == regRead) {
+        register_read();
+      } else if (inFunction == regWrite || inFunction == regWriteMult) {
+        for (int i = 0; i < inNumRegs; ++i) {
+          if (remoteMode) {
+            register_write(inRegister + i, inData[i]);  //, i);
+          }
+          if (inRegister + i == rMode || inRegister + i == rCurrent || inRegister + i == rPressure) {
+            set_mode(inRegister + i, i);
           }
         }
-        if(result == true){
-          send_data();
+        // create the base data for LRC calculation
+        int_to_hex(hex2, inAddress, 2);
+        strcpy(inCheckLRC, hex2);
+        int_to_hex(hex2, inFunction, 2);
+        strcat(inCheckLRC, hex2);
+        int_to_hex(hex4, inRegister, 4);
+        strcat(inCheckLRC, hex4);
+        if (inFunction == regWrite) {
+          int_to_hex(hex4, inData[0], 4);
+        } else {
+          int_to_hex(hex4, inNumRegs, 4);
         }
-      }else{
-        if(address == 0 || (address != 0 && address == (int)strtol(inAddress, NULL, 16))){
-          if((int)strtol(inFunction, NULL, 16) == regWrite){
-            result = register_write();
-            if(result == true){
-              set_mode();
-              send_data();
-            }
-          }
-        }
+        strcat(inCheckLRC, hex4);
+        strcat(inCheckLRC, "\0");
+      } else if (inFunction == coilWrite) {
+        coil_write();
+      } else {
+        send_bad("unknown function");
+        return;
       }
-    }else{
-      send_bad();
+      // create the reply packet
+      strcpy(reply, ":");
+      strcat(reply, strupr(inCheckLRC));
+      get_lrc();
+      strcat(reply, strupr(lrc_hex));
+      strcat(reply, "\r\n");
+      send_data();
+    } else {
+      send_bad("bad lrc");
     }
     newData = false;
   }
-
+  analogWrite(currentOut, int((presentCurrent - currentMin) * currentUnit));
+  actualPressure = presentPressure ? presentPressure : 75.0;
   buttons();
-
   display();
 
-} // END MAIN LOOP
+}  // END MAIN LOOP

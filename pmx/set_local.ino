@@ -1,111 +1,124 @@
-void set_local(){ // SET LOCAL VALUES
+void set_local() {  // SET LOCAL VALUES
 
-//  int param = 0;
+  //  int param = 0;
 
-  switch(button){
+  switch (button) {
     case 1:
-      if(setting < 4){
-        setting ++;
-      }else{
+      if (setting < 4) {
+        setting++;
+      } else {
         setting = 0;
       }
       break;
+    case 2:
+      presentFault = 220;
+      break;
+    case 3:
+      presentFault = 402;
+      break;
     case 4:
-      if(setting == 1){
-        if(cMode == 3){
-          cMode = 1;
-        }else{
-          cMode ++;
+      if (setting == 1) {
+        if (presentMode == 3) {
+          presentMode = 1;
+        } else {
+          presentMode++;
         }
-        if(cMode == 3){
-          cPressureMax = gPressureMax;
-          cPressureMin = gPressureMin;
-        }else{
-          cPressureMax = nPressureMax;
-          cPressureMin = nPressureMin;
+        if (presentMode == 3) {  // set gouge pressures
+          presentPressureMax = pressureMaxGouge;
+          presentPressureMin = pressureMinGouge;
+        } else {  // set normal pressures
+          presentPressureMax = pressureMax;
+          presentPressureMin = pressureMin;
         }
-        if(pressureType){
-          cPressure    = cPressure    * 0.0689476;
-          cPressureMax = cPressureMax * 0.0689476;
-          cPressureMin = cPressureMin * 0.0689476;
+        if (pressureType) {  // convert to bar
+          presentPressure = presentPressure * 0.0689476;
+          presentPressureMax = presentPressureMax * 0.0689476;
+          presentPressureMin = presentPressureMin * 0.0689476;
         }
-        if(cPressure > cPressureMax){
-          cPressure = cPressureMax;
-        }else if(cPressure < cPressureMin && cPressure != 0){
-          cPressure = cPressureMin;
+        if (presentPressure > presentPressureMax) {
+          presentPressure = presentPressureMax;
+        } else if (presentPressure < presentPressureMin && presentPressure != 0) {
+          presentPressure = presentPressureMin;
         }
-      }else if(setting == 2){
-        cCurrent += 0.1;
-        if(cCurrent > cCurrentMax){
-          cCurrent = cCurrentMin;
+      } else if (setting == 2) {
+        presentCurrent += 0.1;
+        if (presentCurrent > presentCurrentMax) {
+          presentCurrent = presentCurrentMin;
         }
-      }else if(setting == 3){
-        cPressure += 0.1;
-        if(cPressure > cPressureMax){
-          cPressure = cPressureMin;
+      } else if (setting == 3) {
+        presentPressure += 0.1;
+        if (presentPressure > presentPressureMax) {
+          presentPressure = presentPressureMin;
         }
-      }else if(setting == 4){
+      } else if (setting == 4) {
         pressureType = !pressureType;
-        if(pressureType){
-          cPressure    = cPressure    * 0.0689476;
-          cPressureMax = cPressureMax * 0.0689476;
-          cPressureMin = cPressureMin * 0.0689476;
-        }else{
-          cPressure    = cPressure    * 14.5038;
-          cPressureMax = cPressureMax * 14.5038;
-          cPressureMin = cPressureMin * 14.5038;
+        if (pressureType) {  // convert to bar
+          presentPressure = presentPressure * 0.0689476;
+          presentPressureMax = presentPressureMax * 0.0689476;
+          presentPressureMin = presentPressureMin * 0.0689476;
+        } else {  // convert to psi
+          presentPressure = presentPressure * 14.5038;
+          presentPressureMax = presentPressureMax * 14.5038;
+          presentPressureMin = presentPressureMin * 14.5038;
         }
+      } else {
+      presentFault = 2111;
+      break;
       }
       break;
     case 5:
-      if(setting == 1){
-        if(cMode == 1){
-          cMode = 3;
-        }else{
-          cMode --;
+      if (setting == 1) {
+        if (presentMode == 1) {
+          presentMode = 3;
+        } else {
+          presentMode--;
         }
-        if(cMode == 3){
-          cPressureMax = gPressureMax;
-          cPressureMin = gPressureMin;
-        }else{
-          cPressureMax = nPressureMax;
-          cPressureMin = nPressureMin;
+        if (presentMode == 3) {  // set gouge pressures
+          presentPressureMax = pressureMaxGouge;
+          presentPressureMin = pressureMinGouge;
+        } else {  // set normal pressures
+          presentPressureMax = pressureMax;
+          presentPressureMin = pressureMin;
         }
-        if(pressureType){
-          cPressure    = cPressure    * 0.0689476;
-          cPressureMax = cPressureMax * 0.0689476;
-          cPressureMin = cPressureMin * 0.0689476;
+        if (pressureType) {  // convert to bar
+          presentPressure = presentPressure * 0.0689476;
+          presentPressureMax = presentPressureMax * 0.0689476;
+          presentPressureMin = presentPressureMin * 0.0689476;
         }
-        if(cPressure > cPressureMax){
-          cPressure = cPressureMax;
-        }else if(cPressure < cPressureMin && cPressure != 0){
-          cPressure = cPressureMin;
+        if (presentPressure > presentPressureMax) {
+          presentPressure = presentPressureMax;
+        } else if (presentPressure < presentPressureMin && presentPressure != 0) {
+          presentPressure = presentPressureMin;
         }
-      }else if(setting == 2){
-        cCurrent -= 0.1;
-        if(cCurrent < cCurrentMin){
-          cCurrent = cCurrentMax;
+      } else if (setting == 2) {
+        presentCurrent -= 0.1;
+        if (presentCurrent < presentCurrentMin) {
+          presentCurrent = presentCurrentMax;
         }
-      }else if(setting == 3){
-        cPressure -= 0.1;
-        if(cPressure < cPressureMin && cPressure != 0){
-          cPressure = cPressureMax;
+      } else if (setting == 3) {
+        presentPressure -= 0.1;
+        if (presentPressure < presentPressureMin && presentPressure != 0) {
+          presentPressure = presentPressureMax;
         }
-      }else if(setting == 4){
+      } else if (setting == 4) {
         pressureType = !pressureType;
-        if(pressureType){
-          cPressure    = cPressure    * 0.0689476;
-          cPressureMax = cPressureMax * 0.0689476;
-          cPressureMin = cPressureMin * 0.0689476;
-        }else{
-          cPressure    = cPressure    * 14.5038;
-          cPressureMax = cPressureMax * 14.5038;
-          cPressureMin = cPressureMin * 14.5038;
+        if (pressureType) {  // convert to bar
+          presentPressure = presentPressure * 0.0689476;
+          presentPressureMax = presentPressureMax * 0.0689476;
+          presentPressureMin = presentPressureMin * 0.0689476;
+        } else {  // convert to psi
+          presentPressure = presentPressure * 14.5038;
+          presentPressureMax = presentPressureMax * 14.5038;
+          presentPressureMin = presentPressureMin * 14.5038;
         }
+      } else {
+        presentFault = 3421;
+        break;
       }
       break;
   }
-  oldMode = cMode;
-  oldCurrent = cCurrent;
-  oldPressure = cPressure;
-} // END SET LOCAL VALUES
+  lastMode = presentMode;
+  lastCurrent = presentCurrent;
+  lastPressure = presentPressure;
+
+}  // END SET LOCAL VALUES

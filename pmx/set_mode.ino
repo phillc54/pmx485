@@ -1,41 +1,56 @@
-void set_mode(){ // SET OPERATING MODE
+void set_mode(int reg, int num) {  // SET OPERATING MODE
 
-  if(!validMode && (int)strtol(inRegister, NULL, 16) == rMode){
-    if((int)strtol(inData, NULL, 16) != 0){
+  if (remoteMode && presentMode == 0 && presentCurrent == 0 && presentPressure == 0) {
+    address = 0;
+    validMode = false;
+    validCurrent = false;
+    validPressure = false;
+    presentMode = lastMode;
+    presentCurrent = lastCurrent;
+    presentPressure = lastPressure;
+    remoteMode = false;
+    return;
+  }
+  if (reg == rMode) {  //} && !validMode){
+    if (inData[num] != 0) {
       validMode = true;
-//      oldMode = cMode;
-    }else{
+      remoteStart[0] = inData[num];
+      //      lastMode = presentMode;
+    } else {
       validMode = false;
+      remoteStart[0] = 0;
     }
-  }
-
-  if(!validCurrent && (int)strtol(inRegister, NULL, 16) == rCurrent){
-    if((int)strtol(inData, NULL, 16) != 0){
+  } else if (reg == rCurrent) {  //} && !validCurrent){
+    if (inData[num] != 0) {
       validCurrent = true;
-//      oldCurrent = cCurrent;
-    }else{
+      remoteStart[1] = inData[num];
+      //      lastCurrent = presentCurrent;
+    } else {
       validCurrent = false;
+      remoteStart[1] = 0;
     }
-  }
-
-  if(!validPressure && (int)strtol(inRegister, NULL, 16) == rPressure){
-    if((int)strtol(inData, NULL, 16) != 0){
+  } else if (reg == rPressure) {  //} && !validPressure){
+    if (inData[num] != 0) {
       validPressure = true;
-//      oldPressure = cPressure;
-    }else if(validMode && validCurrent){
+      remoteStart[2] = inData[num];
+      //      lastPressure = presentPressure;
+    } else if (validMode && validCurrent) {
       validPressure = true;
-//      oldPressure = cPressure;
-    }else{
+      remoteStart[2] = inData[num];
+      //      lastPressure = presentPressure;
+    } else {
       validPressure = false;
+      remoteStart[2] = 0;
+    }
+  }
+  if (!remoteMode && validMode && validCurrent && validPressure) {
+    remoteMode = true;
+    register_write(rMode, remoteStart[0]);      //, 0);
+    register_write(rCurrent, remoteStart[1]);   //, 0);
+    register_write(rPressure, remoteStart[2]);  //, 0);
+    if (address == 0) {
+      address = inAddress;
     }
   }
 
-  if(address == 0 && (validMode || validCurrent || validPressure)){    
-    address = (int)strtol(inAddress, NULL, 16);
-  }
-
-  if(validMode && validCurrent && validPressure){    
-    remoteMode = true;
-  }
-
-} // END OPERATING MODE
+}  // END OPERATING MODE
